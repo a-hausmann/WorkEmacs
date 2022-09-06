@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t -*-
 ;; File: we-utilities.el
 ;; Created:       2022-08-29 14:52:27
-;; Last modified: Wed Aug 31, 2022 9:03:55
+;; Last modified: Thu Sep 01, 2022 13:41:10
 ;; Purpose: Configure "utility" packages.
 
 ;; Yasnippet, first one up as I need that badly for new files.
@@ -23,24 +23,16 @@
 (require 'amx)
 (diminish 'amx-mode)
 (amx-mode t)
-(general-define-key
+(general-def
  "M-x" 'amx
  "M-X" 'amx-major-mode-commands
  "C-c C-c M-x" 'execute-extended-command)
 
 
 ;; Configure async
-;; (with-eval-after-load 'dired
-;;   (require 'async)
-;;   (diminish 'async)
-;;   (dired-async-mode 1))
-;; (use-package async
-;;   :diminish
-;;   :demand
-;;   ;:after dired
-;;   :config
-;;      (dired-async-mode 1))
-
+;; Ref: https://github.com/jwiegley/emacs-async
+(autoload 'dired-async-mode "dired-async.el" nil t)
+(dired-async-mode 1)
 
 ;; Configure command-log-mode
 (require 'command-log-mode)
@@ -57,8 +49,7 @@
 ;; Configure Helpful (help commands)
 (require 'helpful)
 (diminish 'helpful-mode)
-(general-define-key
- :keymaps 'general-map
+(general-def
   [remap describe-function] 'helpful-callable
   [remap describe-command] 'helpful-command
   [remap describe-variable] 'helpful-variable
@@ -71,11 +62,13 @@
 (diminish 'magit)
 (setq magit-push-always-verify nil
       git-commit-summary-max-length 50)
-(general-define-key "C-x g" nil
-                    "C-x g g" 'magit-status
-                    "C-x g b" 'magit-blame
-                    "C-x g c" 'magit-branch-checkout
-                    "C-x g l" 'magit-log-buffer-file)
+(general-def
+  "C-x g" nil
+  "C-x g g" 'magit-status
+  "C-x g b" 'magit-blame
+  "C-x g c" 'magit-branch-checkout
+  "C-x g l" 'magit-log-buffer-file)
+
 (require 'magit-gitflow)
 (diminish 'magit-gitflow)
 (add-hook 'magit-mode-hook 'turn-on-magit-gitflow)

@@ -1,15 +1,11 @@
 ;; File name:     we-personal.el
-;; Last modified: Tue Aug 30, 2022 16:59:05
+;; Last modified: Thu Sep 01, 2022 15:37:01
 ;; Author:        Arnold Hausmann
 
-(defun we/switch-to-previous-buffer ()
-  "Switch to previously open buffer.
-Repeated invocations toggle between the two most recently open buffers."
-  (interactive)
-  (switch-to-buffer (other-buffer (current-buffer) 1)))
-; (global-set-key (kbd "C-x p") 'we/switch-to-previous-buffer)
-
-
+;; Function and hook to set the last modified date in any buffer/file
+;; which contains the "Last modified: " string or "#+date: " string
+;; in an org buffer.  100% of the code is here, so no need for a
+;; separate file.
 (defun we/set-last-modified-ts ()
   "Set new timestamp for \"Last modified: \" tag, or if in org-mode,
 the \"#+date: \" tag.  Function searches for string from point-min forward;
@@ -62,7 +58,7 @@ Including indent-buffer, which should not be called automatically on save."
 Repeated invocations toggle between the two most recently open buffers."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
-(global-set-key (kbd "C-x p") 'we/switch-to-previous-buffer)
+(general-def "C-x p" 'we/switch-to-previous-buffer)
 
 
 
@@ -134,14 +130,14 @@ Repeated invocations toggle between the two most recently open buffers."
   (split-window-below)
   (balance-windows)
   (other-window 1))
-(global-set-key (kbd "C-x 2") 'we/split-and-follow-horizontally)
+(general-def "C-x 2" 'we/split-and-follow-horizontally)
 
 (defun we/split-and-follow-vertically ()
   (interactive)
   (split-window-right)
   (balance-windows)
   (other-window 1))
-(global-set-key (kbd "C-x 3") 'we/split-and-follow-vertically)
+(general-def  "C-x 3" 'we/split-and-follow-vertically)
 
 ;; Killing buffers cleanly By default x k is bound to kill-buffer.
 ;; Instead, we want to kill the current buffer.
@@ -149,7 +145,7 @@ Repeated invocations toggle between the two most recently open buffers."
   "Kills the current buffer."
   (interactive)
   (kill-buffer (current-buffer)))
-(global-set-key (kbd "C-x k") 'we/kill-current-buffer)
+(general-def "C-x k" 'we/kill-current-buffer)
 
 
 ;; Dwim narrowing the way I like.
@@ -168,7 +164,7 @@ Repeated invocations toggle between the two most recently open buffers."
     (t
       (message "Do not know what to narrow to.")
       (call-interactively #'narrow-to-defun))))
-(global-set-key (kbd "C-x n w") 'we/narrow-dwim)
+(general-def "C-x n w" 'we/narrow-dwim)
 
 
 ;; Created to prettify MBD Rules for me or Mary.
@@ -217,4 +213,12 @@ Repeated invocations toggle between the two most recently open buffers."
             (replace-match "" nil nil))
           (message (format "%d ^M removed from buffer." remove-count)))))))
 
-
+;; Reset text scale to normal
+(defun we/text-scale-reset ()
+  "Wrapper for \"(text-scale-increase 0)\""
+  (interactive)
+  (text-scale-increase 0))
+(general-def
+  "C-M--" 'text-scale-decrease
+  "C-+" 'text-scale-increase
+  "C-M-=" 'we/text-scale-reset)

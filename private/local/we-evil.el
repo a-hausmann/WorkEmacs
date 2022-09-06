@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t -*-
 ;; File:          we-evil.el
 ;; Created:       2022-08-26
-;; Last modified: Tue Aug 30, 2022 16:12:17
+;; Last modified: Mon Sep 05, 2022 9:51:12
 ;; Purpose:       Configure all Evil Mode packages.
 ;;
 
@@ -30,15 +30,17 @@
   (kbd "N")       'evil-search-previous
   (kbd "C-f")     'evil-scroll-down
   (kbd "C-b")     'evil-scroll-up
-  ;; (kbd "C-w C-w") 'other-window
   (kbd "C-w C-w") 'ace-window)
 
-(define-key evil-normal-state-map (kbd "q") nil)
+;; (define-key evil-normal-state-map (kbd "q") nil)
+(general-def
+  :keymaps 'evil-normal-state-map
+  "q" nil)
 
 
 (require 'evil-collection)
-(diminish 'evil-collection-unimpaired-mode)
 (evil-collection-init)
+(diminish 'evil-collection-unimpaired-mode)
 
 
 (require 'evil-commentary)
@@ -51,11 +53,11 @@
 
 
 (require 'evil-matchit)
-(diminish 'evil-matchit-mode)
 (global-evil-matchit-mode 1)
+(diminish 'evil-matchit-mode)
 
 
 (require 'evil-surround)
-(diminish 'evil-surround-mode)
 (global-evil-surround-mode)
+(diminish 'evil-surround-mode)
 

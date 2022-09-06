@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t -*-
 ;; File:          we-theme.el
 ;; Created:       2022-06-14
-;; Last modified: Wed Aug 31, 2022 11:02:34
+;; Last modified: Thu Sep 01, 2022 15:42:21
 ;; Purpose:       This file configures the default theme I want to use. Currently
 ;;                this is the Modus themes. https://protesilaos.com/emacs/modus-themes
 ;;
@@ -41,5 +41,5 @@
 (setq modus-themes-org-blocks 'gray-background)
 ;; Load the theme of your choice:
 (load-theme 'modus-vivendi t nil) ;; OR (load-theme 'modus-vivendi)
-(define-key global-map (kbd "<f7>") #'modus-themes-toggle)
-
+(general-def
+  "<f7>" #'modus-themes-toggle)

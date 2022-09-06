@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t -*-
 ;; File: we-org.el
-;; Last modified: Mon Aug 29, 2022 13:33:52
+;; Last modified: Thu Sep 01, 2022 15:25:42
 ;; Purpose: Configure org-mode
 
 (setq org-startup-folded t)
@@ -36,10 +36,11 @@
 (setq org-src-window-setup 'current-window)                   ; Allows for "C-c '" to narrow to code being edited.
 
 ;; The following lines are always needed. Choose your own keys.
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-cb" 'org-switchb)
+(general-def
+"C-c l" 'org-store-link
+"C-c a" 'org-agenda
+"C-c c" 'org-capture
+"C-c b" 'org-switchb)
 
 (setq org-todo-keywords
       (quote ((sequence "TODO(t)" "NEXT(n)" "ONGOING" "|" "DONE(d@/!)")

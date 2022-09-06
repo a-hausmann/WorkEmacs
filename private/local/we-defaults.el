@@ -1,6 +1,6 @@
 ;; File:          aeh-defaults.el  --- -*- lexical-binding: t -*-
 ;; Created:       2022-08-17 10:48:13
-;; Last modified: Mon Aug 29, 2022 10:38:14
+;; Last modified: Thu Sep 01, 2022 13:43:34
 ;; Purpose:       Normal "default" configuration stuff.
 ;;
 
@@ -138,3 +138,14 @@
 (add-hook 'lisp-mode-hook 'we/disable-tabs)
 (add-hook 'emacs-lisp-mode-hook 'we/disable-tabs)
 (add-hook 'sql-mode-hook 'we/disable-tabs)
+
+
+;; Misc. key bindings.
+(general-def
+ "C-;" 'iedit-mode
+ "C-*" 'isearch-forward-symbol-at-point
+ "C-c u" 'upcase-dwim
+ "C-c l" 'downcase-dwim
+ "C-c t" 'capitalize-dwim
+ "C-x M-c" 'capitalize-region)
+

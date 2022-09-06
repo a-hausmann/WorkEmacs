@@ -21,10 +21,14 @@ folder, otherwise delete a word"
 (require 'vertico)
 (vertico-mode 1)
 (customize-set-variable 'vertico-cycle t)
-(define-key vertico-map (kbd "C-n") 'vertico-next)
-(define-key vertico-map (kbd "C-p") 'vertico-previous)
-(define-key vertico-map (kbd "C-g") 'vertico-exit)
-(define-key minibuffer-local-map (kbd "<C-backspace>") 'dw/minibuffer-backward-kill)
+(general-def
+  :keymaps 'vertico-map
+  "C-n" 'vertico-next
+  "C-p" 'vertico-previous
+  "C-g" 'vertico-exit)
+(general-def
+  :keymaps 'minibuffer-local-map
+  "<C-backspace>" 'dw/minibuffer-backward-kill)
 
 (message "Completed Vertico Config")
 
@@ -82,6 +86,7 @@ folder, otherwise delete a word"
   (when (fboundp 'projectile-project-root)
     (projectile-project-root)))
 
+
 ;; Configure Consult
 (setq register-preview-delay 0
       register-preview-function #'consult-register-format)
@@ -89,13 +94,11 @@ folder, otherwise delete a word"
       xref-show-definitions-function #'consult-xref)
 
 (require 'consult)
-(diminish 'consult)
-
 (setq consult-project-root-function #'we/get-project-root
       completion-in-region-function #'consult-completion-in-region)
 (advice-add #'register-preview :override #'consult-register-window)
 
-(general-define-key
+(general-def
   "C-s"  'isearch-forward                 ;; Still useful, consult has no better solution.
   "C-c C-r"  'isearch-backward            ;; Still useful, consult has no better solution.
   "C-c C-s"  'consult-isearch-forward     ;; works in mini-buffer ONLY!
@@ -129,10 +132,18 @@ folder, otherwise delete a word"
 (message "Completed Consult Config")
 
 ;; Ref: https://github.com/gagbo/consult-lsp
+;; Function "xref-find-apropos" usually mapped to "C-M-.", but that is mapped to
+;; "company-complete-common" in a global binding.
+;; leaving "xref-find-apropos" unmapped. This caused the "remap" to fail. So,
+;; map this in Company to company-active-map specifically.
+;; 2022-09-01: CANNOT get this remapping to work without errors, and I suspect
+;; it is the Consult part. If I comment out the remap, it works OK.
+;; Consult may be completely phuked.
 (with-eval-after-load 'lsp-mode
   (require 'consult-lsp)
   (diminish 'consult-lsp)
-  (define-key lsp-mode [remap xref-find-apropos] 'consult-lsp-symbols))
+  ;; (general-def :keymaps lsp-mode-map [remap xref-find-apropos] 'consult-lsp-symbols)
+  )
 
 (message "Completed Consult-lsp Config")
 

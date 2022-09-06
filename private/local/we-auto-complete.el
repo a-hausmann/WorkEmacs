@@ -1,6 +1,6 @@
 ;; File:          we-auto-complete.el  --- -*- lexical-binding: t -*-
 ;; Created:       2022-08-25
-;; Last modified: Wed Aug 31, 2022 9:15:37
+;; Last modified: Thu Sep 01, 2022 16:14:27
 ;; Purpose:       A separate loader for Auto-Completions, starting with Company.
 ;;
 
@@ -47,16 +47,19 @@
 ;; --------------------------------------------------------------------------------
 (require 'company)
 (diminish 'company-mode)
-(setq company-idle-delay .5)  ; half-second delay
-(global-set-key (kbd "C-M-.") 'company-complete-common)
+(setq company-idle-delay 1.5)  ; delay from stopping typing and beginning completion.
+;; (global-set-key (kbd "C-M-.") 'company-complete-common)
 (setq company-minimum-prefix-length 3)   ; three letters needed for completion
 (setq company-dabbrev-ignore-case t)
 (setq company-dabbrev-downcase nil)      ; return candidates AS IS.
-(with-eval-after-load 'company
-  (define-key company-active-map (kbd "M-n") nil)
-  (define-key company-active-map (kbd "M-p") nil)
-  (define-key company-active-map (kbd "C-n") #'company-select-next)
-  (define-key company-active-map (kbd "C-p") #'company-select-previous))
+(general-def
+  :keymaps 'company-active-map
+  "M-n" nil
+  "M-p" nil
+  "C-n" #'company-select-next
+  "C-p" #'company-select-previous
+  "C-M-." 'company-complete-common)
+
 (add-hook 'emacs-lisp-mode-hook 'company-mode)
 (add-hook 'shell-mode-hook 'company-mode)
 (add-hook 'sql-mode-hook
@@ -64,25 +67,6 @@
               (setq-default company-minimum-prefix-length 4)
               (setq-default company-dabbrev-code-ignore-case t)
               (setq-default completion-ignore-case t)))
-
-; (use-package company
-;     :ensure t
-;     :commands company-complete-common
-;     :diminish
-;     :hook ((emacs-lisp-mode . company-mode)
-;            (shell-mode . company-mode))
-;     :config
-;     (setq company-idle-delay .5)  ; half-second delay
-;     (global-set-key (kbd "C-M-.") 'company-complete-common)
-;     (setq company-minimum-prefix-length 3)   ; three letters needed for completion
-;     (setq company-dabbrev-ignore-case t)
-;     (setq company-dabbrev-downcase nil)      ; return candidates AS IS.
-;     (with-eval-after-load 'company
-;       (define-key company-active-map (kbd "M-n") nil)
-;       (define-key company-active-map (kbd "M-p") nil)
-;       (define-key company-active-map (kbd "C-n") #'company-select-next)
-;       (define-key company-active-map (kbd "C-p") #'company-select-previous))
-;     )
 
 (defun shell-mode-company-init ()
   (setq-local company-backends '((company-shell
@@ -95,28 +79,14 @@
 (add-hook 'shell-mode-hook 'shell-mode-company-init)
 
 
-; (use-package company-shell
-;     :ensure t
-;     :after company
-;     :diminish
-;     :config (add-hook 'shell-mode-hook 'shell-mode-company-init))
-
 ;; Ref: ref: https://medium.com/analytics-vidhya/managing-a-python-development-environment-in-emacs-43897fd48c6a
 (with-eval-after-load 'company
   (require 'company-statistics)
   (diminish 'company-statistics-mode)
   (company-statistics-mode 1))
 
-; (use-package company-statistics
-;     :ensure t
-;     :after company
-;     :config (company-statistics-mode))
-
 (with-eval-after-load 'company
   (require 'company-web))
-; (use-package company-web
-;     :ensure t
-;     :after company)
 
 ;; Not sure what I was thinking here and no notes on it.
 ;; (use-package company-try-hard
@@ -134,11 +104,6 @@
   (require 'company-quickhelp)
   (diminish 'company-quickhelp-mode)
   (company-quickhelp-mode))
-; (use-package company-quickhelp
-;     :ensure t
-;     :after company
-;     :config
-;     (company-quickhelp-mode))
 
 ;; 2020-07-08, adding company-jedi, which uses jedi-core, but made for Company users
 ;; (defun we/python-mode-hook ()

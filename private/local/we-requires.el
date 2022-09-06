@@ -1,15 +1,12 @@
 ;; -*- lexical-binding: t -*-
 ;; File: we-requires.el
-;; Last modified: Wed Aug 31, 2022 9:20:14
+;; Last modified: Mon Sep 05, 2022 9:54:02
 ;; Purpose: This is the "master" configuration file, loading all others.
 
 ;; Set the size of the frame
 (when window-system
   (if (string-equal system-type "windows-nt")
       (progn
-        ;; 2020-07-14: while I'm on laptop-only, less size.
-        ;; (add-to-list 'default-frame-alist '(height . 45))
-        ;; (add-to-list 'default-frame-alist '(width . 150))
         (add-to-list 'default-frame-alist '(height . 40))
         (add-to-list 'default-frame-alist '(width . 140)))
     (progn
@@ -51,6 +48,12 @@
 ;; as part of use-package
 (require 'diminish)
 
+;; Load General.el, the Cadillac of key-binders
+(load "we-general")
+
+;; Load Evil Mode packages
+(load "we-evil")
+
 ;; Load defaults
 (load "we-defaults")
 
@@ -81,9 +84,6 @@
                                                    :face 'font-lock-keyword-face))
 (setq dashboard-set-footer 1)
 
-;; Load General.el, the Cadillac of key-binders
-(load "we-general")
-
 ;; Load utility packages.
 (load "we-utilities")
 
@@ -102,13 +102,10 @@
 ;; Load Hydras
 (load "we-hydras")
 
-;; Load Evil Mode packages
-(load "we-evil")
-
 ;; Load org-mode config
 (load "we-org")
 
-;; Load Navigation packages
+;; Load Navigation packages; these help me get around in buffers/windows, etc.
 (load "we-navigation")
 
 ;; Load Editing packages.
@@ -117,12 +114,16 @@
 ;; Load the useful functions, personal, but not important.
 (load "we-useful")
 
+;; Load LSP and other programming packages.
+(load "we-lsp-etc")
 
 ;; THIS NEEDS TO COME LAST!!!!
 ;; There are a few minor modes which are not getting diminished, so do that here.
 (diminish 'eldoc-mode)
 (diminish 'visual-line-mode)
 (diminish 'subword-mode)
+(diminish 'lsp-lens-mode)
+(diminish 'auto-revert-mode)
 
 ;; Set defaults for work/home: default directory & files to open.
 (if (string-equal system-type "windows-nt")

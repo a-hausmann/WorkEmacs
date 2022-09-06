@@ -1,5 +1,5 @@
 ;; File name:     ws-general.el
-;; Last modified: Fri Aug 26, 2022 16:00:35
+;; Last modified: Thu Sep 01, 2022 13:42:40
 ;; Author:        Arnold Hausmann
 
 ;;; Require which-key here as this is where we're going to hit up much of the key definitions.
@@ -43,4 +43,14 @@
   "i" '(we/hydra-insert-stuff-menu/body :which-key "insert stuff")
 )
 
+;; As here we want to use dwim functions instead of the default upcase/downcase/capitalize-word,
+;; we first need to undefine these keybindings.
+(general-unbind
+  "M-c"
+  "M-l"
+  "M-u")
+(general-def
+ "M-c u" 'upcase-dwim
+ "M-c l" 'downcase-dwim
+ "M-c c" 'capitalize-dwim)
 

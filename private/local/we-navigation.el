@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t -*-
 ;; File:          we-navigation.el
 ;; Created:       2022-08-29
-;; Last modified: Tue Aug 30, 2022 16:01:32
+;; Last modified: Thu Sep 01, 2022 15:18:31
 ;; Purpose:       Configure Emacs navigation packages. This includes searching,
 ;;                windows and jumping.
 ;;
@@ -57,7 +57,7 @@
 (require 'avy)
 (diminish 'avy-mode)
 (setq avy-timeout-seconds 1.0)
-(general-define-key "C-x C-t" 'avy-goto-char-timer)
+(general-def "C-x C-t" 'avy-goto-char-timer)
 
 
 ;; Frog-jump buffer configuration.
@@ -69,7 +69,7 @@
 (require 'projectile)
 (diminish 'projectile-mode)
 (projectile-mode 1)
-(general-define-key
+(general-def
  :keymaps 'projectile-mode-map
  "s-p" 'projectile-command-map
  "C-c p" 'projectile-command-map)

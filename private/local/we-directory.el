@@ -1,6 +1,6 @@
 ;; File:          we-directory.el  --- -*- lexical-binding: t -*-
 ;; Created:       2022-08-26
-;; Last modified: Mon Aug 29, 2022 10:54:01
+;; Last modified: Thu Sep 01, 2022 14:20:42
 ;; Purpose:       Packages and settings for directory management.
 ;;
 
@@ -50,6 +50,36 @@
             (interactive)
             (all-the-icons-dired-mode 1)
             (hl-line-mode 1)))
+(general-def "C-c d" 'dired-jump)
+(evil-set-initial-state 'dired-mode 'normal)  ;; Notes Evil loads first.
+(general-def
+ :states 'normal
+ :keymaps 'dired-mode-map
+ "(" 'dired-hide-details-mode
+ "j" 'dired-next-line
+ "k" 'dired-previous-line
+ "h" 'dired-up-directory
+ "H" 'dired-hide-dotfiles-mode
+ "l" 'dired-find-alternate-file
+ "o" 'dired-find-file-other-window
+ "s" 'dired-sort-toggle-or-edit
+ "v" 'dired-toggle-marks
+ "m" 'dired-mark
+ "u" 'dired-unmark
+ "U" 'dired-unmark-all-marks
+ "c" 'dired-create-directory
+ "q" 'kill-this-buffer
+ "gg" 'revert-buffer
+ "M-s" 'avy-goto-char-timer
+ "W" 'evil-forward-WORD-begin
+ "B" 'evil-backward-WORD-begin
+ "E" 'evil-forward-WORD-end
+ "" 'dired-git-info-mode
+ "n" 'dired-next-line
+ "p" 'dired-previous-line)
+(general-def
+ :keymaps 'dired-mode-map
+ "SPC" nil)
 (message "Completed dired configuration")
 
 (with-eval-after-load 'dired
@@ -61,81 +91,33 @@
 (message "Completed dired-collapse configuration")
 
 (with-eval-after-load 'dired
-  (require 'dired-git-info))
+  (require 'dired-git-info)
+  (general-def
+    :keymaps 'dired-mode-map
+    ")" 'dired-git-info-mode))
 (message "Completed dired-git-info configuration")
 
 (with-eval-after-load 'dired
-  (require 'dired-narrow))
+  (require 'dired-narrow)
+  (general-def
+    :keymaps 'dired-mode-map
+    "C-c C-n" 'dired-narrow
+    "C-c C-f" 'dired-narrow-fuzzy
+    "C-x C-n" 'dired-narrow-regexp))
 (message "Completed dired-narrow configuration")
 
 (with-eval-after-load 'dired
-  (require 'dired-subtree))
+  (require 'dired-subtree)
+  (general-def
+    :keymaps 'dired-mode-map
+    "<tab>" 'dired-subtree-toggle
+    "<backtab>" 'dired-subtree-cycle))
 (message "Completed dired-subtree configuration")
 
 (with-eval-after-load 'dired
   (require 'dired-hide-dotfiles))
 (message "Completed dired-hide-dotfiles configuration")
 
-(with-eval-after-load 'dired
-  (progn
-    (define-key dired-mode-map (kbd ")") 'dired-git-info-mode)
-    (define-key dired-mode-map (kbd "C-c C-n") 'dired-narrow)
-    (define-key dired-mode-map (kbd "C-c C-f") 'dired-narrow-fuzzy)
-    (define-key dired-mode-map (kbd "C-x C-n") 'dired-narrow-regexp)
-    (define-key dired-mode-map (kbd "<tab>") 'dired-subtree-toggle)
-    (define-key dired-mode-map (kbd "<backtab>") 'dired-subtree-cycle))
-  )
-
-
-; (use-package dired
-;     :ensure nil
-;     :defer 1
-;     :commands (dired dired-jump)
-;     :custom (dired-listing-switches my/dired-string)
-;     :config
-;     (add-hook 'dired-load-hook
-;               (lambda ()
-;                 (interactive)
-;                 (dired-collapse)))
-;     (add-hook 'dired-mode-hook
-;               (lambda ()
-;                 (interactive)
-;                 (all-the-icons-dired-mode 1)
-;                 (hl-line-mode 1)))
-
-;     (use-package dired-single
-;         :after dired
-;         :defer t)
-
-;     (use-package dired-collapse
-;         :after dired
-;         :defer t)
-
-;     (use-package dired-git-info
-;         :defer 1
-;         :diminish
-;         :after dired)
-
-;     (use-package dired-narrow
-;         :commands (dired-narrow dired-narrow-fuzzy dired-narrow-regexp)
-;         :diminish
-;         :config (message "Loaded dired-narrow")
-;         :bind
-;         (:map dired-mode-map ("C-c C-n" . dired-narrow))
-;         (:map dired-mode-map ("C-c C-f" . dired-narrow-fuzzy))
-;         (:map dired-mode-map ("C-x C-n" . dired-narrow-regexp)))
-
-;     (use-package dired-subtree
-;         :after dired
-;         :commands (dired-subtree-toggle dired-subtree-cydle)
-;         :diminish
-;         :bind
-;         (:map dired-mode-map ("<tab>" . dired-subtree-toggle))
-;         (:map dired-mode-map ("<backtab>" . dired-subtree-cycle)))
-
-;     (use-package dired-hide-dotfiles
-;         :after dired
-;         :diminish))  ;; End of dired's :config section
 
 ;;; Treemacs configuration
 ;; In Windows, Python 3.10 installed as "python.exe"
@@ -148,14 +130,16 @@
 (with-eval-after-load 'winum
   (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
 (require 'treemacs)
-(global-set-key (kbd "M-<f2>") 'treemacs)
-(global-set-key (kbd "M-0") 'treemacs-select-window)
-(global-set-key (kbd "C-x t 1") 'treemacs-delete-other-window)
-(global-set-key (kbd "C-x t t") 'treemacs)
-(global-set-key (kbd "C-x t B") 'treemacs-bookmark)
-(global-set-key (kbd "C-x t C-t") 'treemacs-find-file)
-(global-set-key (kbd "C-x t M-t") 'treemacs-find-tag)
-
+(general-def
+  "M-<f2>" 'treemacs
+  "C-x t t" 'treemacs)
+(general-def
+  :keymaps 'treemacs-mode-map
+  "M-0" 'treemacs-select-window
+  "C-x t 1" 'treemacs-delete-other-window
+  "C-x t B" 'treemacs-bookmark
+  "C-x t C-t" 'treemacs-find-file
+  "C-x t M-t" 'treemacs-find-tag)
 (progn
   (setq treemacs-collapse-dirs              (if (executable-find python-string) 3 0)
         treemacs-deferred-git-apply-delay   0.5

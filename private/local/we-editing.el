@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t -*-
 ;; File:          we-editing.el
 ;; Created:       2022-08-30
-;; Last modified: Wed Aug 31, 2022 13:46:45
+;; Last modified: Thu Sep 01, 2022 15:05:36
 ;; Purpose:       Load package which aid in editing.
 ;;
 
@@ -22,7 +22,7 @@
 (require 'drag-stuff)
 (diminish 'drag-stuff-mode)
 (drag-stuff-define-keys)
-(general-define-key "M-<f3>" 'drag-stuff-mode)
+(general-def "M-<f3>" 'drag-stuff-mode)
 
 
 ;; 2022-08-30: Commenting out BOTH EditorConfig and ws-butler as getting warnings and don't
@@ -45,7 +45,7 @@
 ;; Configure expand-region
 (require 'expand-region)
 (diminish 'expand-region)
-(general-define-key "C-=" 'er/expand-region)
+(general-def "C-=" 'er/expand-region)
 
 
 ;; Configure Highlight-thing; highlights all occurances of the "thing" under point.
@@ -55,7 +55,7 @@
 (diminish 'highlight-thing-mode)
 (setq highlight-thing-what-thing 'word
       highlight-thing-case-sensitive-p nil)
-(general-define-key "C-<f3>" 'highlight-thing-mode)
+(general-def "C-<f3>" 'highlight-thing-mode)
 
 
 ;; Configure Origami, the code-folding package.
@@ -86,7 +86,7 @@ This is designed to be used in a prog-mode-hook."
 
 ;; Ref: https://github.com/noctuid/general.el#basic-examples
 ;; Ref: https://github.com/noctuid/general.el#evil-examples
-(general-define-key
+(general-def
  :states 'normal
  :keymaps '(prog-mode-map origami-mode-map)
  "TAB" 'we/origami-toggle-node
