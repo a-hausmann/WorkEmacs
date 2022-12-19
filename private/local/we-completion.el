@@ -212,6 +212,12 @@ folder, otherwise delete a word"
 ;       embark-become-indicator embark-action-indicator)
 ; )
 
+;; 2022-11-30: Added embark-consult to mix after getting warning on upgrade.
+(with-eval-after-load 'embark
+  (with-eval-after-load 'consult
+    (require 'embark-consult)
+    (diminish 'embark-consult)
+    (add-hook 'embark-collect-mode-hook 'consult-preview-at-point-mode)))
 
 ;; Ref: https://github.com/minad/affe
 ;; Affe is an asynchronous fuzzy finder for emacs... Look into this.

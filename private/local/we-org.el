@@ -1,26 +1,20 @@
 ;; -*- lexical-binding: t -*-
 ;; File: we-org.el
-;; Last modified: Thu Sep 01, 2022 15:25:42
+;; Last modified: Tue Oct 11, 2022 8:56:40
 ;; Purpose: Configure org-mode
 
 (setq org-startup-folded t)
 (setq inhibit-compacting-font-caches t)
 
-(use-package org-bullets
-  :defer 2
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-  ;; make available "org-bullet-face" such that I can control the font size individually
-  (setq org-bullets-face-name (quote org-bullet-face))
-  ;; (setq org-bullets-bullet-list '("?" "?" "?" "?" "?" "?" "?" "?" "?" "?" "?" "?" "?" "?" "?" "?"))
-  ;; (setq org-ellipsis "???")
-  (custom-set-faces
-   '(org-level-1 ((t (:inherit outline-1 :height 1.3))))
-   '(org-level-2 ((t (:inherit outline-2 :height 1.2))))
-   '(org-level-3 ((t (:inherit outline-3 :height 1.1))))
-   '(org-level-4 ((t (:inherit outline-4 :height 1.0))))
-   '(org-level-5 ((t (:inherit outline-5 :height 1.0)))))
-  )
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+(setq org-bullets-face-name (quote org-bullet-face))
+(custom-set-faces
+ '(org-level-1 ((t (:inherit outline-1 :height 1.3))))
+ '(org-level-2 ((t (:inherit outline-2 :height 1.2))))
+ '(org-level-3 ((t (:inherit outline-3 :height 1.1))))
+ '(org-level-4 ((t (:inherit outline-4 :height 1.0))))
+ '(org-level-5 ((t (:inherit outline-5 :height 1.0)))))
 
 ;; 2019-12-16: add to template-alist.
 (require 'org-tempo)

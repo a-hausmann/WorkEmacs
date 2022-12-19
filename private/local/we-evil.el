@@ -1,12 +1,16 @@
 ;; -*- lexical-binding: t -*-
 ;; File:          we-evil.el
 ;; Created:       2022-08-26
-;; Last modified: Mon Sep 05, 2022 9:51:12
+;; Last modified: Wed Nov 30, 2022 15:16:48
 ;; Purpose:       Configure all Evil Mode packages.
 ;;
 
 ; IMPORTANT! This MUST be set before starting up evil-mode!
 (setq evil-want-keybinding nil)
+
+;; Ref: https://github.com/emacsmirror/undo-fu#evil-mode
+;; As this example of use-package with :init, it appears "evil-undo-system" should be set FIRST.
+(setq evil-undo-system 'undo-fu)
 
 ; Evil mode
 (require 'evil)

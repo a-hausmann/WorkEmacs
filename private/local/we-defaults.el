@@ -1,6 +1,6 @@
 ;; File:          aeh-defaults.el  --- -*- lexical-binding: t -*-
 ;; Created:       2022-08-17 10:48:13
-;; Last modified: Thu Sep 01, 2022 13:43:34
+;; Last modified: Mon Sep 26, 2022 11:23:08
 ;; Purpose:       Normal "default" configuration stuff.
 ;;
 
@@ -56,7 +56,7 @@
  inhibit-startup-screen t                         ; Disable start-up screen
  mouse-yank-at-point t                            ; Yank at point rather than pointer
  scroll-conservatively most-positive-fixnum       ; Always scroll by one line
- scroll-margin 2                                  ; Add a margin when scrolling vertically
+ ;; scroll-margin 2                                  ; Add a margin when scrolling vertically
  select-enable-clipboard t                        ; Merge system's and Emacs' clipboard
  sentence-end-double-space nil                    ; End a sentence after a dot and a space
  show-trailing-whitespace nil                     ; Display trailing whitespaces
@@ -72,6 +72,7 @@
  )
 
 ;;; Things you cannot set with "setq"
+(recentf-mode 1)                                  ; Always set this!
 (global-visual-line-mode 1)                       ; Really, REALLY like visual line mode.
 (show-paren-mode 1)                               ; Always show matching parens
 (delete-selection-mode 1)                         ; Replace region when inserting text

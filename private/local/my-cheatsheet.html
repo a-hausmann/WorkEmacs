@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='Cp1252'>
+  <title>Emacs Cheatsheet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+  * { 
+    margin: 0; 
+    padding: 0; 
+  }
+  body { 
+    font: 14px/1.4 Tahoma,Helvetica,sans-serif;
+  }
+  /* 
+  Generic Styling, for Desktops/Laptops 
+  */
+  table { 
+    width: 90%;
+    border-collapse: collapse;
+    margin: 0px auto;
+  }
+  /* Zebra striping */
+  tr:nth-of-type(odd) { 
+    background: #eee; 
+  }
+  th { 
+    background: #333; 
+    color: white; 
+    font-weight: bold; 
+  }
+  td, th { 
+    padding: 6px; 
+    border: 1px solid #9B9B9B; 
+    text-align: left; 
+  }
+  @media 
+  only screen and (max-width: 760px),
+  (min-device-width: 768px) and (max-device-width: 1024px)  {
+    table, thead, tbody, th, td, tr { display: block; }
+    thead tr { position: absolute;top: -9999px;left: -9999px;}
+    tr { border: 1px solid #9B9B9B; }
+    td { border: none;border-bottom: 1px solid #9B9B9B; position: relative;padding-left: 50%; }
+    
+    td:before { position: absolute;top: 6px;left: 6px;width: 45%; padding-right: 10px; white-space: nowrap;}
+    
+    /*
+    Label the data
+    */
+td:nth-of-type(0):before { content: "Schema"; }
+td:nth-of-type(1):before { content: "Business unit"; }
+td:nth-of-type(2):before { content: "Name"; }
+td:nth-of-type(3):before { content: "Entity"; }
+td:nth-of-type(4):before { content: "MBD Prov ID"; }
+td:nth-of-type(5):before { content: "City"; }
+td:nth-of-type(6):before { content: "State"; }
+td:nth-of-type(7):before { content: "Source Type"; }
+td:nth-of-type(8):before { content: "KPI Tag"; }
+td:nth-of-type(9):before { content: "RHM_COUNT"; }
+  }
+  
+  /* Smartphones (portrait and landscape) ----------- */
+  @media only screen
+  and (min-device-width : 320px)
+  and (max-device-width : 480px) {
+    body { 
+      padding: 0; 
+      margin: 0; 
+      width: 320px; }
+    }
+  
+  /* iPads (portrait and landscape) ----------- */
+  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    body { 
+      width: 495px; 
+    }
+  }
+  
+  </style>
+  <!--<![endif]-->
+<script type="text/javascript">
+
+function search(){
+  
+  var s = document.getElementById('search').value;
+
+  //rows = document.getElementById('data').getElementsByTagName('TR');
+  rows = document.getElementById('data').getElementsByTagName('tr');
+  for(var i=0;i<rows.length;i++){
+    if ( rows[i].textContent.indexOf(s)>0 ) {
+	  rows[i].style.display ='';
+    } else {
+      rows[i].style.display ='none';
+    }
+  }
+}
+
+
+var timer;
+function delayedSearch() {
+	clearTimeout(timer);
+	console.log('delay-ing')
+    timer = setTimeout(function () {
+		console.log('delay-running')
+		search();
+    }, 500);
+  }</script>
+</head>
+
+<body>
+  <div>
+    <input type="text" size="30" maxlength="1000" value="" id="search" onkeyup="delayedSearch();" /><input type="button" value="Go" onclick="lsearch();"/>
+  </div>
+  <p>I use Emacs in Evil mode as I was a Vimmer for around 20 years. I attempt to put most daily stuff into the General/Hydra menu structure, using SPC as "leader" key. But that doesn't work for everything, hence this cheatsheet.
+    <p>Tip to add environment variables in the locked-down Windows 10 laptop: click the search icon next to Start, type "environment" in the search box and select "Edit environment variables <b>for your account</b>". This will pop up the familiar window to edit the personal environment, possible <b>without</b> having administrator privileges.
+  <br>
+  <br>
+  <table>
+
+    <thead>
+      <tr>
+        <th>Action</th>
+		<th>Vim Method</th>
+		<th>Emacs Chord</th>
+		<th>Emacs Method</th>
+		<th>Notes</th>
+      </tr>
+    </thead>
+
+    <tbody id="data">
+	<tr>
+        <td>Next line</td>
+        <td>j</td>
+        <td>C-n</td>
+        <td>next-line</td>
+        <td>Standard Emacs; Evil: n/a</td>
+	</tr>
+	<tr>
+        <td>Previous line</td>
+        <td>k</td>
+        <td>C-p</td>
+        <td>previous-line</td>
+        <td>Standard Emacs; Evil: n/a</td>
+	</tr>
+	<tr>
+        <td>Next char</td>
+        <td>l</td>
+        <td>C-f</td>
+        <td>forward-char</td>
+        <td>Standard Emacs; Evil: n/a</td>
+	</tr>
+	<tr>
+        <td>Previous char</td>
+        <td>h</td>
+        <td>C-b</td>
+        <td>backward-char</td>
+        <td>Standard Emacs; Evil: n/a</td>
+	</tr>
+	<tr>
+        <td>Next word</td>
+        <td>w</td>
+        <td>M-f</td>
+        <td>forward-word</td>
+        <td>Standard Emacs</td>
+	</tr>
+	<tr>
+        <td>Previous word</td>
+        <td>b</td>
+        <td>M-b</td>
+        <td>backward-word</td>
+        <td>Standard Emacs key binding</td>
+	</tr>
+	<tr>
+        <td>Beginning of Line</td>
+        <td>0</td>
+        <td>C-a</td>
+        <td>beginning-of-line</td>
+        <td>Standard Emacs key binding. Move to beginning of current line.</td>
+	</tr>
+	<tr>
+        <td>End of Line</td>
+        <td>$</td>
+        <td>C-e</td>
+        <td>end-of-line</td>
+        <td>Standard Emacs; Evil: n/a. Move to end of current line.</td>
+	</tr>
+	<tr>
+        <td>Forward Sentence</td>
+        <td>)</td>
+        <td>M-e</td>
+        <td>forward-sentence</td>
+        <td>Standard Emacs key binding. Move to next end of sentence.</td>
+	</tr>
+	<tr>
+        <td>Backward Sentence</td>
+        <td>(</td>
+        <td>M-a</td>
+        <td>backward-sentence</td>
+        <td>Standard Emacs key binding. Move backward to start of sentence.</td>
+	</tr>
+	<tr>
+        <td>Forward Paragraph</td>
+        <td>}</td>
+        <td>M-}</td>
+        <td>forward-paragraph</td>
+        <td>Standard Emacs key binding. Move to next end of paragraph.</td>
+	</tr>
+	<tr>
+        <td>Backward Paragraph</td>
+        <td>{</td>
+        <td>M-{</td>
+        <td>backward-paragraph</td>
+        <td>Standard Emacs key binding. Move backward to start of paragraph.</td>
+	</tr>
+	<tr>
+        <td>Beginning of buffer</td>
+        <td>1G, gg</td>
+        <td>M-&lt;</td>
+        <td>beginning-of-buffer</td>
+        <td>Standard Emacs key binding. Move to first character of buffer.</td>
+	</tr>
+	<tr>
+        <td>End of buffer</td>
+        <td>G</td>
+        <td>M-&gt;</td>
+        <td>end-of-buffer</td>
+        <td>Standard Emacs key binding. Move to last character of buffer.</td>
+	</tr>
+	<tr>
+        <td>Avy move to string</td>
+        <td>n/a</td>
+        <td>M-s</td>
+        <td>avy-goto-char-timer</td>
+        <td>Custom binding prompts to type char string</td>
+	</tr>
+	<tr>
+        <td>Copy to Clipboard</td>
+        <td>&quot;+y</td>
+        <td>M-w</td>
+        <td>kill-ring-save</td>
+        <td>Standard Emacs key binding</td>
+	</tr>
+	<tr>
+        <td>Paste from Clipboard</td>
+        <td>&quot;+p</td>
+        <td>&lt;S-insert&gt;</td>
+        <td>yank</td>
+        <td>Yank is bound to: &lt;S-insertchar&gt;, &lt;S-insert&gt;, &lt;menu-bar&gt;, &lt;edit&gt;, &lt;paste&gt;.</td>
+	</tr>
+	<tr>
+        <td>Copy to named register</td>
+        <td>&quot;&lt;reg&gt;y</td>
+        <td>C-x r s </td>
+        <td>copy-to-register</td>
+        <td>Standard Emacs key binding; useful for minibuffer commands</td>
+	</tr>
+	<tr>
+        <td>Insert from named register</td>
+        <td>&quot;&lt;reg&gt;p</td>
+        <td>C-x r i </td>
+        <td>insert-register</td>
+        <td>Standard Emacs key binding; useful for minibuffer commands</td>
+	</tr>
+    <tr>
+        <td>Start Calc</td>
+        <td>n/a</td>
+        <td>C-x *</td>
+        <td>calc-dispatch</td>
+        <td>Type "c" or "*" to start/stop RPN Calc; "X" to exit.</br>
+          Type "p", then "P" to push result into other window at point.</br>
+          The "p" mappings may be evil-mode remappings, but is effective to place result without leaving Calc Buffer. Remember to place point at desired location before using "p" keys.
+        </td>
+    </tr>
+	<tr>
+        <td>Remove TABs</td>
+        <td>:retab</td>
+        <td>M-x untabify</td>
+        <td>Interactive command</td>
+        <td>AFAIK, this is the only way to do this.</td>
+	</tr>
+	<tr>
+        <td>Convert data to table</td>
+        <td>:Tableize&nbsp;\|</td>
+        <td>C-c |</td>
+        <td>Orgtbl-mode command</td>
+        <td>Activate orgtable mode first, "SPC m o"</td>
+	</tr>
+	<tr>
+        <td>Git: diff remote to local</td>
+        <td>n/a</td>
+        <td>! ! git diff --summary FETCH_HEAD</td>
+        <td>Magit-mode command sequence.</td>
+        <td>Do Magit "fetch" first ("f"), then "!" to execute<br>a complicated command set. 1st "!" opens mini-buffer<br>
+          2nd "!" opens sub buffer for git command sequence. </td>
+	</tr>
+	<tr>
+        <td>Goto beginning of buffer</td>
+        <td>gg</td>
+        <td>M-&lt;</td>
+        <td>Fundamental Emacs key binding</td>
+        <td>This works in all buffers, even minibuffer via 'ivy-beginning-of-buffer'</td>
+	</tr>
+	<tr>
+        <td>Goto end of buffer</td>
+        <td>G</td>
+        <td>M-&gt;</td>
+        <td>Fundamental Emacs key binding</td>
+        <td>This works in all buffers, even minibuffer via 'ivy-end-of-buffer'</td>
+	</tr>
+	<tr>
+        <td>Jump to 1st non-space character on line</td>
+        <td>n/a</td>
+        <td>M-m</td>
+        <td>Function: back-to-indentation</td>
+        <td>Easy as "0 <tab>" in Vim.</td>
+	</tr>
+	<tr>
+        <td>Previous Ivy command</td>
+        <td>n/a</td>
+        <td>M-p</td>
+        <td>Ivy key binding</td>
+        <td>This should be common to Counsel/Ivy/Swiper.</td>
+	</tr>
+	<tr>
+        <td>Next Ivy command</td>
+        <td>n/a</td>
+        <td>M-n</td>
+        <td>Ivy key binding</td>
+        <td>This should be common to Counsel/Ivy/Swiper.</td>
+	</tr>
+	<tr>
+        <td>Ivy-Avy</td>
+        <td>n/a</td>
+        <td>C-'</td>
+        <td>Use Avy to select a candidate in the Ivy listing</td>
+        <td>This should make selections much easier/faster.</td>
+	</tr>
+	<tr>
+        <td>Toggle Wdired mode</td>
+        <td>n/a</td>
+        <td>C-x C-q</td>
+        <td>Function: dired-toggle-read-only</td>
+        <td>Easy to change file name, anything in dired buffer.</td>
+	</tr>
+	<tr>
+        <td>Multiple cursors (evil-mc)</td>
+        <td>n/a</td>
+        <td>C-c m m</td>
+        <td>Function: evil-mc-mode</td>
+        <td>
+  <table>
+    <thead>
+      <tr>
+		<th>Key&nbsp;chord</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="data">
+      <tr>
+      <td>C-c&nbsp;m&nbsp;m</td>
+      <td>will toggle evil-mc-mode on and off</td>
+      </tr>
+      <tr>
+      <td>C-n/C-p</td>
+      <td>mark next/previous occurrance as part of cursors</td>
+      </tr>
+      <tr>
+      <td>M-n/M-p</td>
+      <td>cycle through cursors</td>
+      </tr>
+      <tr>
+      <td>C-t</td>
+      <td>skip next occurrance of word</td>
+      </tr>
+      <tr>
+      <td>g&nbsp;r&nbsp;n/g&nbsp;r&nbsp;p</td>
+      <td>(in normal mode) to skip next or previous occurrance ("g r n" is equivalent to "C-t")</td>
+      <tr>
+      <td>g&nbsp;r&nbsp;u</td>
+      <td>undo last cursor</td>
+      </tr>
+      <tr>
+      <td>g&nbsp;r&nbsp;q</td>
+      <td>quit all cursors</td>
+      </tr>
+    </tbody>
+
+        </td>
+	</tr>
+
+    </tbody>
+
+  </table>
+    
+</body>
+
+</html>
+

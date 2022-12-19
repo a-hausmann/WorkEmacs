@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t -*-
 ;; File: we-requires.el
-;; Last modified: Mon Sep 05, 2022 9:54:02
+;; Last modified: Fri Dec 16, 2022 11:53:11
 ;; Purpose: This is the "master" configuration file, loading all others.
 
 ;; Set the size of the frame
@@ -57,8 +57,10 @@
 ;; Load defaults
 (load "we-defaults")
 
-;; Load spaceline
+;; Load mode line package
 (load "we-spaceline")
+;; Need to figure out the line:column positions, defaults to line only, and have to manually change.
+;; (load "we-doom-modeline")
 
 ;; Set font
 (load "we-font")
@@ -67,22 +69,21 @@
 (load "we-theme")
 
 ;; Load dashboard
-(require 'dashboard)
-(dashboard-setup-startup-hook)
-(setq dashboard-show-shortcuts nil)
-(if (string-equal system-type "windows-nt")
-    (setq dashboard-startup-banner "~/.emacs.d/img/dont-tread-on-emacs-150.png")
-  (setq dashboard-startup-banner "~/.emacs.d/img/dashLogo.png"))
-(setq dashboard-banner-logo-title "Get Hacking!")
-(setq dashboard-items '((recents  . 15)
-                        ))
+;; (require 'dashboard)
+;; (dashboard-setup-startup-hook)
+;; (setq dashboard-show-shortcuts nil)
+;; (if (string-equal system-type "windows-nt")
+;;     (setq dashboard-startup-banner "~/.emacs.d/img/dont-tread-on-emacs-150.png")
+;;   (setq dashboard-startup-banner "~/.emacs.d/img/dashLogo.png"))
+;; (setq dashboard-banner-logo-title "Get Hacking!")
+;; (setq dashboard-items '((recents  . 15)))
 ;; ref: https://github.com/emacs-dashboard/emacs-dashboard
-(setq dashboard-set-init-info 1)
-(setq dashboard-footer-icon (all-the-icons-octicon "zap"
-                                                   :height 1.1
-                                                   :v-adjust -0.05
-                                                   :face 'font-lock-keyword-face))
-(setq dashboard-set-footer 1)
+;; (setq dashboard-set-init-info 1)
+;; (setq dashboard-footer-icon (all-the-icons-octicon "zap"
+;;                                                    :height 1.1
+;;                                                    :v-adjust -0.05
+;;                                                    :face 'font-lock-keyword-face))
+;; (setq dashboard-set-footer 1)
 
 ;; Load utility packages.
 (load "we-utilities")
@@ -117,6 +118,9 @@
 ;; Load LSP and other programming packages.
 (load "we-lsp-etc")
 
+;; Load abbreviations.
+(load "we-abbrevs")
+
 ;; THIS NEEDS TO COME LAST!!!!
 ;; There are a few minor modes which are not getting diminished, so do that here.
 (diminish 'eldoc-mode)
@@ -128,9 +132,9 @@
 ;; Set defaults for work/home: default directory & files to open.
 (if (string-equal system-type "windows-nt")
     (progn
-      (find-file "c:/_work/org/todo.org")
-      (find-file "c:/_work/org/acts.org")
+      ;; (find-file "c:/_work/org/todo.org")
       (find-file "c:/_work/org/jira.org")
+      (find-file "c:/_work/org/acts.org")
       ;; 2020-02-28: add x12-mode autoload plus file extensions
       (progn
         (autoload 'x12-mode "x12-mode" "" t)

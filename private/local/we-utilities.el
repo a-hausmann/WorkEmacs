@@ -1,7 +1,7 @@
 ;; -*- lexical-binding: t -*-
 ;; File: we-utilities.el
 ;; Created:       2022-08-29 14:52:27
-;; Last modified: Thu Sep 01, 2022 13:41:10
+;; Last modified: Fri Dec 16, 2022 9:49:41
 ;; Purpose: Configure "utility" packages.
 
 ;; Yasnippet, first one up as I need that badly for new files.
@@ -37,7 +37,7 @@
 ;; Configure command-log-mode
 (require 'command-log-mode)
 (diminish 'command-log-mode)
-(general-define-key "C-c o" 'clm/toggle-command-log-buffer)
+(general-def "C-c o" 'clm/toggle-command-log-buffer)
 
 
 ;; Configure Garbage Collector Magic Hack.
@@ -79,3 +79,18 @@
 (require 'try)
 
 
+;; Configure undo-fu
+;; (with-eval-after-load 'evil
+(require 'undo-fu)
+(require 'undo-fu-session)
+(global-undo-fu-session-mode 1)
+(general-def 'normal evil-normal-state-map
+  "u" 'undo-fu-only-undo
+  "C-r" 'undo-fu-only-redo)
+(setq undo-fu-session-incompatible-files '("/COMMIT_EDITMSG\\'" "/git-rebase-todo\\'"))
+(if (file-directory-p "~/.emacs.d/undo-fu-session")
+    (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-fu-session")))
+  (progn
+    (dired-create-directory "~/.emacs.d/undo-fu-session")
+    (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-fu-session")))))
+  ;; )

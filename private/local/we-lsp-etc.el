@@ -1,9 +1,12 @@
 ;; -*- lexical-binding: t -*-
 ;; File:          we-lsp-etc.el
 ;; Created:       2022-09-01
-;; Last modified: Mon Sep 05, 2022 10:13:39
+;; Last modified: Tue Dec 06, 2022 14:07:35
 ;; Purpose:       Configure LSP, Flycheck, jedi, etc. for Python and/or other language support.
 ;;
+
+;; 2022-12-06: Setting the name of python executable, note, Python 3.10.5 installed as "python".
+(setq python-shell-interpreter "python")
 
 ;; Configure Flycheck
 ;; Ref: https://emacs.stackexchange.com/questions/39241/flycheck-on-windows-python-pycompile-output-contained-no-errors

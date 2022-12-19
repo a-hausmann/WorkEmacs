@@ -1,11 +1,14 @@
 ;; File name:     we-personal.el
-;; Last modified: Thu Sep 01, 2022 15:37:01
+;; Last modified: Wed Nov 16, 2022 14:33:14
 ;; Author:        Arnold Hausmann
 
 ;; Function and hook to set the last modified date in any buffer/file
 ;; which contains the "Last modified: " string or "#+date: " string
 ;; in an org buffer.  100% of the code is here, so no need for a
 ;; separate file.
+;; 2022-11-16: So, SOMETIMES I will create a txt file and set to mode: org,
+;; and since it lacks Org modifiers, I want to also look for "Last modified".
+;; If "Last modified" insert usual timestamp, if "#+date", use org-time-stamp.
 (defun we/set-last-modified-ts ()
   "Set new timestamp for \"Last modified: \" tag, or if in org-mode,
 the \"#+date: \" tag.  Function searches for string from point-min forward;
@@ -15,11 +18,14 @@ then inserts current time in specified format. "
   (if (equal major-mode 'org-mode)
       (save-excursion
         (goto-char (point-min))
-        (when (search-forward "#+date: " nil t)
-          ;; It appears I do NOT need a lambda here, just execute two functions on when()
-          (delete-region (point) (point-at-eol))
-          (let ((current-prefix-arg '(16)))
-            (call-interactively 'org-time-stamp))))
+        (cond ((search-forward "#+date: " nil t)
+               ;; It appears I do NOT need a lambda here, just execute two functions on when()
+               (delete-region (point) (point-at-eol))
+               (let ((current-prefix-arg '(16)))
+                 (call-interactively 'org-time-stamp)))
+              ((search-forward "Last modified: " nil t)
+               (delete-region (point) (point-at-eol))
+               (insert (format-time-string "%a %b %d, %Y %-H:%M:%S")))))
     (save-excursion
       (goto-char (point-min))
       (when (search-forward "Last modified: " nil t)
@@ -222,3 +228,33 @@ Repeated invocations toggle between the two most recently open buffers."
   "C-M--" 'text-scale-decrease
   "C-+" 'text-scale-increase
   "C-M-=" 'we/text-scale-reset)
+
+
+;; Set previous word to upcase.
+(defun we/upcase-last-word ()
+  "Set previous word to upcase"
+  (interactive)
+  (upcase-word -1))
+(general-def
+  "C-C z u" 'we/upcase-last-word)
+
+
+;; Set previous word to downcase.
+(defun we/downcase-last-word ()
+  "Set previous word to downcase"
+  (interactive)
+  (downcase-word -1))
+(general-def
+  "C-C z d" 'we/downcase-last-word)
+
+
+;; Set previous word to capitalize.
+(defun we/capitalize-last-word ()
+  "Set previous word to capitalize"
+  (interactive)
+  (capitalize-word -1))
+(general-def
+  "C-C z c" 'we/capitalize-last-word
+  "C-c z C" 'capitalize-word)
+
+

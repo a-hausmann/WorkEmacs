@@ -1,5 +1,7 @@
+;; -*- lexical-binding: t -*-
 ;; File:       we-spaceline.el
 ;; Date:       2022-08-25
+;; Last modified: Fri Dec 16, 2022 9:58:34
 ;; Purpose:    This is a "require" version of "aeh-spaceline.el"
 ;; Reference:  https://github.com/angrybacon/dotemacs/blob/master/dotemacs.org#12-mode-line
 ;;

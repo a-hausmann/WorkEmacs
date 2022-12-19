@@ -1,6 +1,6 @@
 ;; File:          we-directory.el  --- -*- lexical-binding: t -*-
 ;; Created:       2022-08-26
-;; Last modified: Thu Sep 01, 2022 14:20:42
+;; Last modified: Tue Oct 18, 2022 12:25:29
 ;; Purpose:       Packages and settings for directory management.
 ;;
 
@@ -118,6 +118,11 @@
   (require 'dired-hide-dotfiles))
 (message "Completed dired-hide-dotfiles configuration")
 
+(with-eval-after-load 'dired
+  (require 'peep-dired)
+  (general-def dired-mode-map
+    "P" 'peep-dired))
+(message "Completed peep-dired configuration")
 
 ;;; Treemacs configuration
 ;; In Windows, Python 3.10 installed as "python.exe"

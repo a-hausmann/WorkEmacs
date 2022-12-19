@@ -36,9 +36,7 @@
 ;; 2021-02-21: Missed actually requiring use-package, looking at System Crafters videos.
 ;; Ref: https://github.com/daviwil/dotfiles/blob/master/Emacs.org
 (require 'use-package)
-;; Uncomment this to get a reading on packages that get loaded at startup
 (setq use-package-verbose t)
-
 (setq-default
  use-package-always-defer t
  use-package-always-ensure t
