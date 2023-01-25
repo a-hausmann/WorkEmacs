@@ -1,6 +1,6 @@
 ;; -*- lexical-binding: t -*-
 ;; File: we-requires.el
-;; Last modified: Fri Dec 16, 2022 11:53:11
+;; Last modified: Wed Jan 25, 2023 16:25:04
 ;; Purpose: This is the "master" configuration file, loading all others.
 
 ;; Set the size of the frame
@@ -8,7 +8,7 @@
   (if (string-equal system-type "windows-nt")
       (progn
         (add-to-list 'default-frame-alist '(height . 40))
-        (add-to-list 'default-frame-alist '(width . 140)))
+        (add-to-list 'default-frame-alist '(width . 160)))
     (progn
       (add-to-list 'default-frame-alist '(height . 38))
       (add-to-list 'default-frame-alist '(width . 140))))
