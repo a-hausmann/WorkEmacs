@@ -1,6 +1,6 @@
 ;; File:          aeh-defaults.el  --- -*- lexical-binding: t -*-
 ;; Created:       2022-08-17 10:48:13
-;; Last modified: Mon Sep 26, 2022 11:23:08
+;; Last modified: Mon Mar 13, 2023 10:52:56
 ;; Purpose:       Normal "default" configuration stuff.
 ;;
 
@@ -42,49 +42,51 @@
 
 ;;; Better defaults, ref: https://github.com/angrybacon/dotemacs/blob/master/dotemacs.org
 (setq-default
- inhibit-startup-message t                        ; Stop startup messages
- ring-bell-function 'ignore                       ; Stop annoying bell
+ ;; scroll-margin 2                                  ; Add a margin when scrolling vertically
+ auto-save-default nil                            ; Disable auto-save funtionality
  auto-window-vscroll nil                          ; Lighten vertical scroll
  confirm-kill-emacs 'yes-or-no-p                  ; Confirm before exiting Emacs
  cursor-in-non-selected-windows nil               ; Hide the cursor in inactive windows
  delete-by-moving-to-trash t                      ; Delete files to trash
+ dired-dwim-target t                              ; Allow direct to dwim target of move, copy commands
+ display-line-numbers-type 'visual                ; Display relative+visible line#, works with folding.
  display-time-format "%H:%M"                      ; Format the time string
  fill-column 80                                   ; Set width for automatic line breaks
  garbage-collection-messages t                    ; set to non-nil to see GC messages.
  help-window-select t                             ; Focus new help windows when opened
  indent-tabs-mode nil                             ; Stop using tabs to indent
+ inhibit-startup-message t                        ; Stop startup messages
  inhibit-startup-screen t                         ; Disable start-up screen
+ kill-ring-max 100                                ; Larger kill-ring
+ make-backup-files nil                            ; Disable backup files
  mouse-yank-at-point t                            ; Yank at point rather than pointer
+ recentf-max-saved-items 100                      ; abo-abo sets to 600, but I'm cautious.
+ ring-bell-function 'ignore                       ; Stop annoying bell
+ save-place-forget-unreadable-files nil           ; Ref: https://www.emacswiki.org/emacs/SavePlace
  scroll-conservatively most-positive-fixnum       ; Always scroll by one line
- ;; scroll-margin 2                                  ; Add a margin when scrolling vertically
  select-enable-clipboard t                        ; Merge system's and Emacs' clipboard
  sentence-end-double-space nil                    ; End a sentence after a dot and a space
  show-trailing-whitespace nil                     ; Display trailing whitespaces
  tab-width 4                                      ; Set width for tabs
  window-combination-resize t                      ; Resize windows proportionally
  x-stretch-cursor t                               ; Stretch cursor to the glyph width
- display-line-numbers-type 'visual                ; Display relative+visible line#, works with folding.
- recentf-max-saved-items 100                      ; abo-abo sets to 600, but I'm cautious.
- kill-ring-max 100                                ; Larger kill-ring
- dired-dwim-target t                              ; Allow direct to dwim target of move, copy commands
- make-backup-files nil                            ; Disable backup files
- auto-save-default nil                            ; Disable auto-save funtionality
  )
 
 ;;; Things you cannot set with "setq"
-(recentf-mode 1)                                  ; Always set this!
-(global-visual-line-mode 1)                       ; Really, REALLY like visual line mode.
-(show-paren-mode 1)                               ; Always show matching parens
 (delete-selection-mode 1)                         ; Replace region when inserting text
 (display-time-mode 1)                             ; Enable time in the mode-line
 (fringe-mode 0)                                   ; Disable fringes
 (fset 'yes-or-no-p 'y-or-n-p)                     ; Replace yes/no prompts with y/n
+(global-set-key (kbd "C-M-y") 'clipboard-yank)    ; 2020-05-07: add mapping to yank from clipboard
 (global-subword-mode 1)                           ; Iterate through CamelCase words
+(global-visual-line-mode 1)                       ; Really, REALLY like visual line mode.
 (mouse-avoidance-mode 'animate)                   ; Avoid collision of mouse with point KEEP ON ANIMATE
 (put 'downcase-region 'disabled nil)              ; Enable downcase-region
 (put 'upcase-region 'disabled nil)                ; Enable upcase-region
+(recentf-mode 1)                                  ; Always set this!
+(save-place-mode t)                               ; 2023-03-13: open files in last-edited position.
 (set-default-coding-systems 'utf-8)               ; Default to utf-8 encoding
-(global-set-key (kbd "C-M-y") 'clipboard-yank)    ; 2020-05-07: add mapping to yank from clipboard
+(show-paren-mode 1)                               ; Always show matching parens
 
 ;;; Hooks
 ;; ALWAYS display line numbers when in prog-mode!
